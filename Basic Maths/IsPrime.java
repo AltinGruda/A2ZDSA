@@ -1,6 +1,6 @@
 public class IsPrime {
     public static void main(String[] args) {
-        int testCase = 2;
+        int testCase = 1;
         boolean answer = isPrime(testCase);
 
         if(answer && testCase != 1) {
