@@ -28,7 +28,7 @@ public class PrintNos {
 
     public static void addElements(int x, int[] arr){
         if(x == 0) return;
-        arr[x-1] = x;
+        arr[x-1] = x; // if we want to print from x to 1 we do arr[arr.length - x] = x
         addElements(x-1, arr);
     }
 }
