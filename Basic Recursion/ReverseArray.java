@@ -20,12 +20,17 @@ import java.util.Arrays;
 public class ReverseArray {
     public static void main(String[] args) {
         int[] nums = {3, 1, 1, 7, 4, 2, 6, 11};
-        int[] reversedArr = reverseArray(8, nums);
+        int n = 8;
+        int[] reversedArr = reverseArray(n, nums);
 
         System.out.println(Arrays.toString(reversedArr));
+
+        // option 2
+        reverse(nums, 0, n-1);
+        System.out.println(Arrays.toString(nums));
     }
 
-    
+    // option 1
     public static int[] reverseArray(int n, int []nums) {
         int[] reverse = new int[n];
 
@@ -43,5 +48,15 @@ public class ReverseArray {
         reverse[cnt] = nums[n-1];
         cnt = cnt + 1;
         return reverse(n-1, nums, reverse);
+    }
+
+    // alternative way
+    public static void reverse(int[] arr, int start, int end) {
+        if (start < end) {
+            int tmp = arr[end];
+            arr[end] = arr[start];
+            arr[start] = tmp;
+            reverse(arr, start + 1, end - 1);
+        }
     }
 }
