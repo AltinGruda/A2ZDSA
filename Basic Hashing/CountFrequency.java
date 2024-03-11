@@ -20,13 +20,23 @@ Number         Count
  6                0
  */
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public class CountFrequency {
     public static void main(String[] args) {
-        int arr[] = {10, 5, 10, 15, 10, 5};
-        countFrequency(arr.length, 0, arr);
+        int arr[] = {1, 2, 1, 3, 2};
+        countFrequencyBruteForce(arr.length, arr);
+        countFrequencyHashing(arr.length, arr);
+        int[] hashmapResult = countFrequencyMap(arr.length, arr);
+        System.out.println(Arrays.toString(hashmapResult));
+
     }
 
-    public static void countFrequency(int n, int x, int []nums){
+    // brute force solution O(n^2)
+    public static void countFrequencyBruteForce(int n, int []nums){
         boolean visited[] = new boolean[n];
 
         for(int i = 0; i < n; i++){
@@ -43,5 +53,45 @@ public class CountFrequency {
             }
             System.out.println(nums[i] + " " + count);
         }
+    }
+
+    // hashing: use of pre-compute and then fetch.
+    // So, with this method, we can solve the problems where the array is within a specific size. 
+    public static void countFrequencyHashing(int n, int[] nums) {
+        int[] hash = new int[n+1]; // + 1 because arrays are 0 indexed
+        // pre-compute (store)
+        for(int i = 0; i < n; i++){
+            hash[nums[i]] += 1;
+        }
+
+        int[] numbers = Arrays.stream(nums).distinct().toArray();
+
+        for(int i = 0; i < numbers.length; i++){
+            System.out.println(numbers[i]  + " " +hash[numbers[i]]);
+        }
+    }
+
+    // Hashmap: is an unordered map where we store values in a map, but on an unordered way, where then we can access those values
+    // the benefit of using hashmap is that time complexity is O(1) in average and best cases, but O(n) in the worst case
+    public static int[] countFrequencyMap(int n, int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        // pre-compute (store)
+        for(int i = 0; i < n; i++){
+            int key = nums[i];
+            int freq = 0;
+            if (map.containsKey(key)) freq = map.get(key); // if key exists, get the current frequency from the map
+            freq++;
+            map.put(key, freq); // add/update the key/value
+        }
+
+        // fetch
+        for(Map.Entry<Integer, Integer> i : map.entrySet()) {
+            System.out.println(i.getKey() + " -> " + i.getValue());
+        }
+
+        // map -> collection -> array
+        Collection<Integer> values = map.values();
+        int[] result = values.stream().mapToInt(x -> x).toArray();
+        return result;
     }
 }
